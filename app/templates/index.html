@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% block content %} 
+
+    <div> 
+  
+    </div>
+       <h1>Welcome {{context.usuario}}</h1>
+       <p><br>Idade:{{context.idade}}</br><p>
+       <h3>Estudo Flask</h3>
+    <div>
+      
+     <p>Aula sobre templates<p>
+     <p>Informações pra o servidor <p>
+
+    </div>
+    <div>
+      {% include 'nav.html'%}
+   </div>
+   <div>
+      <img src="{{url_for('static',filename='img/dev.png')}}" width="400"
+      height="341" class=" row mt-4 p-4 rounde border shadow">
+   </div>
+    
+    {% endblock %}

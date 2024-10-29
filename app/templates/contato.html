@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+{% block content %} 
+
+       
+     <div class="container">
+      {% include 'nav.html'%}
+
+       <div class="row mt-4">
+        <h3>Envio de Contato</h3>
+       <form action="" method="post" class="row mt-4 p-4 rounde border shadow">
+        <!--1 criar o formulário-->
+       {{form.csrf_token}} <!--Token de segurança-->
+       {{form.nome.label()}}
+       {{form.nome(class="form-control")}}
+       {{form.email.label()}}
+       {{form.email(class="form-control")}}
+       {{form.assunto.label()}}
+       {{form.assunto(class="form-control")}}
+       {{form.mensagem.label()}}
+       {{form.mensagem(class="form-control")}}
+       <hr>
+        
+       {{form.btnSubmit(class="btn btn-primary mt-4 col-12")}}
+       </form>
+       
+     </div> 
+     
+     </div>
+     {% endblock %}
