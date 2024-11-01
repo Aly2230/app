@@ -1,8 +1,9 @@
 from app import app,db
 from flask import render_template,url_for,request,redirect
+from flask_login import login_user,logout_user,current_user
 
 from app.models import Contato
-from app.forms import ContatoForm
+from app.forms import ContatoForm,UserForm
 
 @app.route('/')
 def homepage():
@@ -14,12 +15,22 @@ def homepage():
      }
      return render_template('index.html',context=context)
 
+#cadastro de usuário
+@app.route('/cadastro/',methods= ['GET','POST'])
+def cadastro():
+     form = UserForm()
+     if form.validate_on_submit():
+          user = form.save()
+          login_user(user, remember=True)
+          return redirect(url_for('homepage'))
+     
+     return render_template('cadastro.html',form=form)
+
 
 @app.route('/contato/', methods= ['GET','POST'])
 def contato():
      form=ContatoForm()
      context = {}
-  #pegar o formulário e verficar se foi submetido pegar o formulário e redirecionar a página. nesse espaço também da pra tratar erros
      if form.validate_on_submit():
           form.save()
           return redirect(url_for('homepage'))

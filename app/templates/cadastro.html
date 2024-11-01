@@ -1,0 +1,40 @@
+{% extends 'base.html' %} 
+{% block content %} 
+
+       
+     <div class="container">
+      {% include 'nav.html'%}
+
+       <div class="row mt-4">
+        <h3>Cadastro de Usuário</h3>
+       <form action="" method="post" class="row mt-4 p-4 rounde border shadow">
+        <!--1 criar o formulário-->
+       {{form.csrf_token}} 
+
+       <!--Token de segurança--> 
+       {{form.nome.label()}}
+       {{form.nome(class="form-control")}}
+
+       {{form.sobrenome.label()}}
+       {{form.sobrenome(class="form-control")}}
+
+       {{form.email.label()}}
+       {{form.email(class="form-control")}}
+
+       {{form.senha.label()}}
+       {{form.senha(class="form-control")}} 
+
+       {{form.confirmacao_senha.label()}}
+       {{form.confirmacao_senha(class="form-control")}} 
+
+       {{form.btnSubmit(class="btn btn-primary mt-4 col-12")}}
+ 
+       <hr>
+        
+       
+       </form>
+       
+     </div> 
+     
+     </div>
+     {% endblock %}

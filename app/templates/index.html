@@ -5,11 +5,13 @@
   
     </div>
        <h1>Welcome {{context.usuario}}</h1>
-       <p><br>Idade:{{context.idade}}</br><p>
-       <h3>Estudo Flask</h3>
+       <p><br>Sua idade é: {{context.idade}} </br><p>
+         <h2>Estamos estudando Flask</h2>
+       
     <div>
       
-     <p>Aula sobre templates<p>
+     <p>Aula01 
+      sobre templates<p>
      <p>Informações pra o servidor <p>
 
     </div>
@@ -17,6 +19,15 @@
       {% include 'nav.html'%}
    </div>
    <div>
+
+      {% if current_user.is_authenticated %}
+      <span class="btn btn-primary" >{{current_user.nome}} {{current_user.sobrenome}}</span> 
+      <a href="" class="" btn btn-danger>Sair</a> 
+      {% else %}
+      <a href ="{{url_for('cadastro')}}" class="row mt-4 btn btn-primary mx-auto "> Faça seu cadastro</a>
+      {% endif %}
+      <hr>
+     <p>Aula sobre adição de imagens <p>
       <img src="{{url_for('static',filename='img/dev.png')}}" width="400"
       height="341" class=" row mt-4 p-4 rounde border shadow">
    </div>
