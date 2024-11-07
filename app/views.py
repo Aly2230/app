@@ -2,18 +2,27 @@ from app import app,db
 from flask import render_template,url_for,request,redirect
 from flask_login import login_user,logout_user,current_user
 
-from app.models import Contato
-from app.forms import ContatoForm,UserForm
+from app.models import Contato,Post
+from app.forms import ContatoForm,UserForm,LoginForm,PostForm
 
-@app.route('/')
+@app.route('/',methods= ['GET','POST'])
 def homepage():
      usuario='Aly'
      idade=28
+     
+     
+     form=LoginForm()
+     
+     if form.validate_on_submit():
+          user=form.login()
+          login_user(user,remember=True)
+          
      context={
           'usuario':usuario,
           'idade':idade
-     }
-     return render_template('index.html',context=context)
+     }     
+          
+     return render_template('index.html',context=context,form=form)
 
 #cadastro de usuário
 @app.route('/cadastro/',methods= ['GET','POST'])
@@ -25,6 +34,25 @@ def cadastro():
           return redirect(url_for('homepage'))
      
      return render_template('cadastro.html',form=form)
+
+@app.route('/sair/')
+def logout():
+     logout_user()
+     return redirect(url_for('homepage'))
+
+@app.route('/post/novo/',methods= ['GET','POST'])
+def PostNovo():
+     form=PostForm()
+     if form.validate_on_submit():
+          form.save(current_user.id)
+          return redirect(url_for('homepage'))
+
+     return render_template('post_novo.html',form=form)
+
+@app.route('/post/lista')
+def PostLista():
+     posts=Post.query.all()
+     return render_template('post_lista.html',posts=posts)     
 
 
 @app.route('/contato/', methods= ['GET','POST'])
