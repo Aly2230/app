@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,PasswordField
+from wtforms import StringField,SubmitField,PasswordField,FileField
 from wtforms.validators import DataRequired,Email, EqualTo, ValidationError
 
-from app import db,bcrypt
-from app.models import Contato ,User,Post
+import os
+from werkzeug.utils import secure_filename
+from app import db,bcrypt,app
+from app.models import Contato ,User,Post,PostComentarios
 #baixar o pacote flask_wtf e wtforms para poder utilizar  StringField,SubmitField,
 #DataRequired,Email
 #criar a lista
@@ -72,15 +74,41 @@ class LoginForm(FlaskForm):
        
 class PostForm(FlaskForm):
         mensagem=StringField('Mensagem',validators=[DataRequired()])
+        imagem=FileField('Imagem', validators=[DataRequired()])
         btnSubmit=SubmitField('Enviar')
          
         def save(self,user_id):
+            imagem=self.imagem.data
+            nome_seguro=secure_filename(imagem.filename)
+        
             post= Post(
                   mensagem=self.mensagem.data,
-                  user_id=user_id
+                  user_id=user_id,
+                  imagem=nome_seguro
              )
+            
+            caminho=os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            app.config['UPLOAD_FILES'],
+            'post',
+            nome_seguro
+            )
+            imagem.save(caminho)
             db.session.add(post)
             db.session.commit()
 
 
 
+      
+class PostComentarioForm(FlaskForm):
+        comentario=StringField('Comentário',validators=[DataRequired()])
+        btnSubmit=SubmitField('Enviar')
+         
+        def save(self,user_id,post_id):
+            comentario = PostComentarios(
+                  comentario= self.comentario.data,
+                  user_id=user_id,
+                  post_id=post_id
+           )
+            db.session.add(comentario)
+            db.session.commit()

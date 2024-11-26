@@ -11,11 +11,12 @@ app = Flask (__name__)
 app.config['SQLALCHEMY_DATABASE_URI']= os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFIATIONS']=False
 app.config['SECRET_KEY']= os.getenv('SECRET_KEY')
+app.config['UPLOAD_FILES']=r'static/data'
  
 db=SQLAlchemy(app)
 migrate=Migrate(app,db)
 login_manager = LoginManager(app)
-login_manager.login_view='login' #rota de login
+login_manager.login_view='homepage' #rota de login
 bcrypt=Bcrypt(app)
 
 
